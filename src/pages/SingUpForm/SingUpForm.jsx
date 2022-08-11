@@ -1,13 +1,14 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field } from 'formik';
 import * as yup from 'yup';
 import { nanoid } from 'nanoid';
-import { Box, ErrorStyled, InputForm } from './Form.styled';
-// import { addContactOperation } from 'redux/operations';
+import { Box, ErrorStyled, InputForm } from './SingUpForm.styled';
+import { singUpUser } from 'redux/operations';
 
 const nameInputId = nanoid();
-const numberInputId = nanoid();
-const initialValues = { name: '', phone: '' };
+const emailInputId = nanoid();
+const passwordInputId = nanoid();
+const initialValues = { name: '', email: '', password: '' };
 
 let schema = yup.object().shape({
   name: yup
@@ -26,10 +27,10 @@ let schema = yup.object().shape({
     .required(),
 });
 
-export default function Form() {
-  // const contacts = useSelector(state => state.contacts.items);
+export default function SingUpForm() {
   const contacts = useSelector(state => {});
-  // const dispatch = useDispatch();
+  // state.contacts.items);
+  const dispatch = useDispatch();
 
   function isContactInItems(contacts, newContact) {
     const { name } = newContact;
@@ -45,11 +46,12 @@ export default function Form() {
   }
 
   function handleFormSubmit(values, actions) {
-    if (!isContactInItems(contacts, values)) {
-      return;
-    }
+    console.log(values);
+    // if (!isContactInItems(contacts, values)) {
+    //   return;
+    // }
 
-    // dispatch(addContactOperation(values));
+    dispatch(singUpUser(values));
     // onSubmit(values);
     actions.resetForm();
   }
@@ -62,7 +64,7 @@ export default function Form() {
     <Box>
       <Formik
         initialValues={initialValues}
-        validationSchema={schema}
+        // validationSchema={schema}
         onSubmit={handleFormSubmit}
       >
         <InputForm>
@@ -71,12 +73,17 @@ export default function Form() {
             <Field id={nameInputId} type="text" name="name" />
             <ErrorStyled name="name" component="div" />
           </label>
-          <label htmlFor={numberInputId}>
-            Number
-            <Field id={numberInputId} type="tel" name="phone" />
-            <ErrorStyled name="number" component="div" />
+          <label htmlFor={emailInputId}>
+            E-mail
+            <Field id={emailInputId} type="text" name="email" />
+            <ErrorStyled name="email" component="div" />
           </label>
-          <button type="submit">Add Contact</button>
+          <label htmlFor={passwordInputId}>
+            Password
+            <Field id={passwordInputId} type="text" name="password" />
+            <ErrorStyled name="password" component="div" />
+          </label>
+          <button type="submit">Sing Up</button>
         </InputForm>
       </Formik>
     </Box>
