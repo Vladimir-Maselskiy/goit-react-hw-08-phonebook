@@ -1,9 +1,6 @@
 // import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-// import {
-//   deleteContactOperation,
-//   fetchContactOperation,
-// } from 'redux/operations';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContactOperation } from 'redux/operations';
 import { ListItem } from './ListItems.styled';
 
 function getVisibleContacts(contacts, filter) {
@@ -17,6 +14,7 @@ function getVisibleContacts(contacts, filter) {
 
 export default function ListItems() {
   const state = useSelector(state => state);
+  const dispatch = useDispatch();
   const contacts = getVisibleContacts(state.contacts, state.filter);
 
   return (
@@ -29,7 +27,7 @@ export default function ListItems() {
               {name} {number}
               <button
                 id={id}
-                // onClick={() => dispatch(deleteContactOperation(id))}
+                onClick={() => dispatch(deleteContactOperation(id))}
               >
                 Delete
               </button>

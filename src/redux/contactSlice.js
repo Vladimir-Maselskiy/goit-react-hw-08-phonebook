@@ -1,15 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addContactOperation, fetchContactOperation } from './operations';
+import {
+  addContactOperation,
+  deleteContactOperation,
+  fetchContactOperation,
+  logOutUser,
+} from './operations';
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: [],
   extraReducers: {
     [addContactOperation.fulfilled]: (state, action) => {
-      state.push(action.payload);
+      state.unshift(action.payload);
     },
     [fetchContactOperation.fulfilled]: (_, action) => {
       return action.payload;
     },
+    [deleteContactOperation.fulfilled]: (state, action) => {
+      return state.filter(contact => contact.id !== action.payload);
+    },
+    [logOutUser.fulfilled]: _ => [],
   },
 });
 

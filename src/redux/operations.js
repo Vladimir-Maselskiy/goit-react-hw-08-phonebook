@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { useNavigate } from 'react-router-dom';
-
+// import { useNavigate } from 'react-router-dom';
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 export const axiosAPI = {
@@ -29,13 +28,13 @@ export const addContactOperation = createAsyncThunk(
   }
 );
 
-// export const deleteContactOperation = createAsyncThunk(
-//   'DELETE_CONTACT',
-//   async id => {
-//     await axios.delete(`/contacts/${id}`);
-//     return id;
-//   }
-// );
+export const deleteContactOperation = createAsyncThunk(
+  'DELETE_CONTACT',
+  async id => {
+    await axios.delete(`/contacts/${id}`);
+    return id;
+  }
+);
 
 export const singUpUser = createAsyncThunk(
   'SING_UP_USER',
@@ -55,18 +54,16 @@ export const singUpUser = createAsyncThunk(
 
 export const logInUser = createAsyncThunk(
   'LOG_IN_USER',
-  async ({ email, password }) => {
+  async (user, { rejectWithValue, getState }) => {
     // const navigate = useNavigate();
     try {
-      const response = await axios.post('/users/login', {
-        email,
-        password,
-      });
+      const response = await axios.post('/users/login', user);
       axiosAPI.setToken(response.data.token);
       // navigate('/contacts');
       return response.data;
     } catch (error) {
-      return error;
+      alert('Invalid email or password');
+      return rejectWithValue();
     }
   }
 );

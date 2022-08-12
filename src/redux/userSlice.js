@@ -22,15 +22,17 @@ export const userSlice = createSlice({
       console.log('singUpUser.rejected');
     },
     [logInUser.fulfilled]: (state, action) => {
+      console.log(action);
       state.user.name = action.payload.user.name;
       state.user.email = action.payload.user.email;
       state.token = action.payload.token;
       state.isLogIn = true;
     },
 
-    [logInUser.rejected]: (state, action) => {
-      console.log('logInUser.rejected');
+    [logInUser.rejected]: (_, action) => {
+      console.log(action.payload);
     },
+
     [logOutUser.fulfilled]: state => {
       state.user.name = '';
       state.user.email = '';

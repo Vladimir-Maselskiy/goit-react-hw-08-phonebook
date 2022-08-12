@@ -28,12 +28,27 @@ let schema = yup.object().shape({
 
 export default function Form() {
   // const contacts = useSelector(state => state.contacts.items);
-  const contacts = useSelector(state => {});
+  const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
 
+  function isContactInItems(contacts, newContact) {
+    const { name } = newContact;
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+    return true;
+  }
+
   function handleFormSubmit(values, actions) {
+    if (!isContactInItems(contacts, values)) {
+      return;
+    }
     dispatch(addContactOperation(values));
-    // onSubmit(values);
     actions.resetForm();
   }
 

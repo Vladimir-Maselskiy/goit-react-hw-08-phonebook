@@ -1,9 +1,10 @@
 import { LogOut } from 'components/LogOut/LogOut';
 import Nav from 'components/Nav/Nav';
+import { PrivateRout } from 'components/PrivateRout/PrivateRout';
 import LogInForm from 'pages/LogInForm/LogInForm';
 import { PhoneBook } from 'pages/PhoneBook/PhoneBook';
 import SingUpForm from 'pages/SingUpForm/SingUpForm';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
@@ -29,7 +30,9 @@ export function App() {
         <Routes>
           <Route path="/register" element={<SingUpForm />} />
           <Route path="/login" element={<LogInForm />} />
-          <Route path="/contacts" element={<PhoneBook />} />
+          <Route path="/contacts" element={<PrivateRout />}>
+            <Route index path="" element={<PhoneBook />} />
+          </Route>
         </Routes>
       </Suspense>
       {isLogIn && <LogOut />}

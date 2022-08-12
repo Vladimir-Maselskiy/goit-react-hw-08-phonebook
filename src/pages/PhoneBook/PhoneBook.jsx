@@ -3,12 +3,7 @@ import { Contacts } from 'pages/PhoneBook/Contacts/Contacts';
 import Filter from 'pages/PhoneBook/Filter/Filter';
 import Form from 'pages/PhoneBook/Form/Form';
 
-import { useDispatch } from 'react-redux';
-import { fetchContactOperation } from 'redux/operations';
-
 export const PhoneBook = () => {
-  const dispatch = useDispatch();
-
   return (
     <>
       <Form />
