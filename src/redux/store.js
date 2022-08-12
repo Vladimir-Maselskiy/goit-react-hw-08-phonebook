@@ -11,17 +11,20 @@ import {
   REGISTER,
 } from 'redux-persist';
 // import { contactsReducer } from './reducer';
-import { userSliceReducer, userStatusSliceReducer } from './userSlice';
+import { userSliceReducer } from './userSlice';
+import { contactsSliceReducer } from './contactSlice';
+import { filterReducer } from './reducer';
 
 const rootReducer = combineReducers({
-  user: userSliceReducer,
-  userStatus: userStatusSliceReducer,
+  auth: userSliceReducer,
+  contacts: contactsSliceReducer,
+  filter: filterReducer,
 });
 
 const persistConfig = {
-  key: 'root',
+  key: 'user',
   storage,
-  whitelist: ['userStatus'],
+  whitelist: ['auth'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -46,7 +46,6 @@ export default function SingUpForm() {
   }
 
   function handleFormSubmit(values, actions) {
-    console.log(values);
     // if (!isContactInItems(contacts, values)) {
     //   return;
     // }

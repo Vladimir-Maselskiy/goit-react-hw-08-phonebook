@@ -1,15 +1,26 @@
 import { LogOut } from 'components/LogOut/LogOut';
 import Nav from 'components/Nav/Nav';
 import LogInForm from 'pages/LogInForm/LogInForm';
+import { PhoneBook } from 'pages/PhoneBook/PhoneBook';
 import SingUpForm from 'pages/SingUpForm/SingUpForm';
+import { useEffect } from 'react';
 import { Suspense } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import { Contacts } from '../Contacts/Contacts';
-import Filter from '../Filter/Filter';
-import Form from '../Form/Form';
-import { Container, Title } from './App.styled';
+import { axiosAPI, fetchContactOperation } from 'redux/operations';
+import { Container } from './App.styled';
 
 export function App() {
+  const dispatch = useDispatch();
+  const isLogIn = useSelector(state => state.auth.isLogIn);
+  const persistToken = useSelector(state => state.auth.token);
+
+  useEffect(() => {
+    if (!persistToken) return;
+    axiosAPI.setToken(persistToken);
+    dispatch(fetchContactOperation());
+  }, [persistToken, dispatch]);
+
   return (
     <Container>
       React homework template
@@ -18,15 +29,10 @@ export function App() {
         <Routes>
           <Route path="/register" element={<SingUpForm />} />
           <Route path="/login" element={<LogInForm />} />
-          <Route path="/contacts" element={<div>Контакти</div>} />
+          <Route path="/contacts" element={<PhoneBook />} />
         </Routes>
       </Suspense>
-      <LogOut />
-      <Form />
-      <Title>Find contacts by name</Title>
-      <Filter />
-      <Title>Contacts</Title>
-      <Contacts />
+      {isLogIn && <LogOut />}
     </Container>
   );
 }

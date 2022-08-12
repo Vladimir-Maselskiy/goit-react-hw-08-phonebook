@@ -6,33 +6,27 @@ import { useSelector } from 'react-redux';
 // } from 'redux/operations';
 import { ListItem } from './ListItems.styled';
 
-// function getVisibleContacts(contacts, filter) {
-//   if (filter === '') {
-//     return contacts;
-//   }
-//   return contacts.filter(contact =>
-//     contact.name.toLowerCase().includes(filter.toLowerCase())
-//   );
-// }
+function getVisibleContacts(contacts, filter) {
+  if (filter === '') {
+    return contacts;
+  }
+  return contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+}
 
 export default function ListItems() {
-  const contacts = useSelector(state => {});
-  //   getVisibleContacts(state.contacts.items, state.contacts.filter)
-  // );
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchContactOperation());
-  // }, [dispatch]);
+  const state = useSelector(state => state);
+  const contacts = getVisibleContacts(state.contacts, state.filter);
 
   return (
     <>
       {contacts &&
         contacts.map(contact => {
-          const { name, phone, id } = contact;
+          const { name, number, id } = contact;
           return (
             <ListItem key={id}>
-              {name} {phone}
+              {name} {number}
               <button
                 id={id}
                 // onClick={() => dispatch(deleteContactOperation(id))}

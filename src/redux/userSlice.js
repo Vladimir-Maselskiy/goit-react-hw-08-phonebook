@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { singUpUser } from './operations';
+import { logInUser, logOutUser, singUpUser } from './operations';
 
 const initialState = {
-  name: '',
-  email: '',
-  password: '',
+  user: {
+    name: '',
+    email: '',
+  },
   token: null,
   isLogIn: false,
 };
@@ -15,29 +16,28 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: {
     [singUpUser.fulfilled]: (state, action) => {
-      state.token = action.payload.token;
+      state.user.token = action.payload.token;
     },
     [singUpUser.rejected]: (state, action) => {
       console.log('singUpUser.rejected');
     },
-  },
-});
-
-export const userStatusSlice = createSlice({
-  name: 'userStatus',
-  initialState: {
-    isLogIn: false,
-    token: '',
-  },
-  reducers: {
-    setIsLogIn: (state, action) => {
-      state.isLogIn = action.payload;
+    [logInUser.fulfilled]: (state, action) => {
+      state.user.name = action.payload.user.name;
+      state.user.email = action.payload.user.email;
+      state.token = action.payload.token;
+      state.isLogIn = true;
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
+
+    [logInUser.rejected]: (state, action) => {
+      console.log('logInUser.rejected');
+    },
+    [logOutUser.fulfilled]: state => {
+      state.user.name = '';
+      state.user.email = '';
+      state.token = null;
+      state.isLogIn = false;
     },
   },
 });
 
 export const { reducer: userSliceReducer } = userSlice;
-export const { reducer: userStatusSliceReducer } = userStatusSlice;

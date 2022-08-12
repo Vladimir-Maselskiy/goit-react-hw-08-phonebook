@@ -3,11 +3,11 @@ import { Formik, Field } from 'formik';
 import * as yup from 'yup';
 import { nanoid } from 'nanoid';
 import { Box, ErrorStyled, InputForm } from './LogInForm.styled';
-import { singUpUser } from 'redux/operations';
+import { logInUser } from 'redux/operations';
 
-const nameInputId = nanoid();
-const numberInputId = nanoid();
-const initialValues = { name: '', phone: '' };
+const emailInputId = nanoid();
+const passwordInputId = nanoid();
+const initialValues = { email: '', password: '' };
 
 let schema = yup.object().shape({
   name: yup
@@ -17,7 +17,7 @@ let schema = yup.object().shape({
       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
     )
     .required(),
-  phone: yup
+  password: yup
     .string()
     .matches(
       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
@@ -27,8 +27,6 @@ let schema = yup.object().shape({
 });
 
 export default function LogInForm() {
-  const contacts = useSelector(state => {});
-  // state.contacts.items);
   const dispatch = useDispatch();
 
   function isContactInItems(contacts, newContact) {
@@ -45,12 +43,7 @@ export default function LogInForm() {
   }
 
   function handleFormSubmit(values, actions) {
-    console.log(values);
-    if (!isContactInItems(contacts, values)) {
-      return;
-    }
-
-    dispatch(singUpUser(values));
+    dispatch(logInUser(values));
     // onSubmit(values);
     actions.resetForm();
   }
@@ -63,19 +56,29 @@ export default function LogInForm() {
     <Box>
       <Formik
         initialValues={initialValues}
-        validationSchema={schema}
+        // validationSchema={schema}
         onSubmit={handleFormSubmit}
       >
         <InputForm>
-          <label htmlFor={nameInputId}>
-            Name
-            <Field id={nameInputId} type="text" name="name" />
-            <ErrorStyled name="name" component="div" />
+          <label htmlFor={emailInputId}>
+            E-mail
+            <Field
+              id={emailInputId}
+              type="text"
+              name="email"
+              autoComplete="on"
+            />
+            <ErrorStyled name="email" component="div" />
           </label>
-          <label htmlFor={numberInputId}>
-            Number
-            <Field id={numberInputId} type="tel" name="phone" />
-            <ErrorStyled name="number" component="div" />
+          <label htmlFor={passwordInputId}>
+            Password
+            <Field
+              id={passwordInputId}
+              type="text"
+              name="password"
+              autoComplete="on"
+            />
+            <ErrorStyled name="password" component="div" />
           </label>
           <button type="submit">Log In</button>
         </InputForm>
