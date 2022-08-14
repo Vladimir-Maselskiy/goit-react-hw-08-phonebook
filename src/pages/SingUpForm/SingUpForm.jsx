@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { Formik, Field } from 'formik';
-// import * as yup from 'yup';
+import * as yup from 'yup';
 import { nanoid } from 'nanoid';
 import { Box, ErrorStyled, InputForm } from './SingUpForm.styled';
 import { singUpUser } from 'redux/operations';
@@ -11,22 +11,23 @@ const emailInputId = nanoid();
 const passwordInputId = nanoid();
 const initialValues = { name: '', email: '', password: '' };
 
-// let schema = yup.object().shape({
-//   name: yup
-//     .string()
-//     .matches(
-//       /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
-//       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-//     )
-//     .required(),
-//   phone: yup
-//     .string()
-//     .matches(
-//       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-//       'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
-//     )
-//     .required(),
-// });
+let schema = yup.object().shape({
+  name: yup
+    .string()
+    .min(2, 'Name must be at least 2 characters long')
+    .required(),
+  email: yup
+    .string()
+    .matches(
+      /^(?!.*@.*@.*$)(?!.*@.*--.*\..*$)(?!.*@.*-\..*$)(?!.*@.*-$)((.*)?@.+(\..{1,11})?)$/,
+      'Please use the correct format'
+    )
+    .required(),
+  password: yup
+    .string()
+    .min(7, 'Password must be at least 8 characters long')
+    .required(),
+});
 
 export default function SingUpForm() {
   const { t } = useTranslation();
@@ -41,7 +42,7 @@ export default function SingUpForm() {
     <Box>
       <Formik
         initialValues={initialValues}
-        // validationSchema={schema}
+        validationSchema={schema}
         onSubmit={handleFormSubmit}
       >
         <InputForm>

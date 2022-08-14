@@ -33,6 +33,7 @@ export function App() {
   const {
     auth: { token: persistToken },
     themeMode,
+    locale,
   } = useSelector(state => state);
 
   useEffect(() => {
@@ -40,6 +41,10 @@ export function App() {
     axiosAPI.setToken(persistToken);
     dispatch(fetchContactOperation());
   }, [persistToken, dispatch]);
+
+  useEffect(() => {
+    i18n.changeLanguage(locale || 'en');
+  }, [locale]);
 
   return (
     <ThemeProvider theme={themeMode === 'light' ? lihgtTheme : darkTheme}>
