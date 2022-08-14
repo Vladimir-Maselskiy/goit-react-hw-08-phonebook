@@ -18,7 +18,6 @@ export const AppBar = () => {
       token,
       user: { email },
     },
-    locale,
     themeMode,
   } = useSelector(state => state);
   const checked = themeMode === 'dark' ? true : false;
