@@ -4,6 +4,7 @@ import { Formik, Field } from 'formik';
 import { nanoid } from 'nanoid';
 import { Box, ErrorStyled, InputForm } from './SingUpForm.styled';
 import { singUpUser } from 'redux/operations';
+import { useTranslation } from 'react-i18next';
 
 const nameInputId = nanoid();
 const emailInputId = nanoid();
@@ -28,18 +29,13 @@ const initialValues = { name: '', email: '', password: '' };
 // });
 
 export default function SingUpForm() {
-  // const contacts = useSelector(state => {});
-  // state.contacts.items);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   function handleFormSubmit(values, actions) {
     dispatch(singUpUser(values));
     actions.resetForm();
   }
-
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
 
   return (
     <Box>
@@ -50,21 +46,21 @@ export default function SingUpForm() {
       >
         <InputForm>
           <label htmlFor={nameInputId}>
-            Name
+            {t('name')}
             <Field id={nameInputId} type="text" name="name" />
             <ErrorStyled name="name" component="div" />
           </label>
           <label htmlFor={emailInputId}>
-            E-mail
+            {t('email')}
             <Field id={emailInputId} type="text" name="email" />
             <ErrorStyled name="email" component="div" />
           </label>
           <label htmlFor={passwordInputId}>
-            Password
+            {t('password')}
             <Field id={passwordInputId} type="text" name="password" />
             <ErrorStyled name="password" component="div" />
           </label>
-          <button type="submit">Sing Up</button>
+          <button type="submit">{t('singUp')}</button>
         </InputForm>
       </Formik>
     </Box>

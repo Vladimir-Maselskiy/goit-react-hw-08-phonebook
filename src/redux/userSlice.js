@@ -16,13 +16,15 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: {
     [singUpUser.fulfilled]: (state, action) => {
-      state.user.token = action.payload.token;
+      state.user.name = action.payload.user.name;
+      state.user.email = action.payload.user.email;
+      state.token = action.payload.token;
+      state.isLogIn = true;
     },
-    [singUpUser.rejected]: (state, action) => {
-      console.log('singUpUser.rejected');
+    [singUpUser.rejected]: (_, action) => {
+      console.log(action.payload);
     },
     [logInUser.fulfilled]: (state, action) => {
-      console.log(action);
       state.user.name = action.payload.user.name;
       state.user.email = action.payload.user.email;
       state.token = action.payload.token;

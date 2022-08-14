@@ -4,6 +4,7 @@ import { Formik, Field } from 'formik';
 import { nanoid } from 'nanoid';
 import { Box, ErrorStyled, InputForm } from './LogInForm.styled';
 import { logInUser } from 'redux/operations';
+import { useTranslation } from 'react-i18next';
 
 const emailInputId = nanoid();
 const passwordInputId = nanoid();
@@ -27,11 +28,11 @@ const initialValues = { email: '', password: '' };
 // });
 
 export default function LogInForm() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   function handleFormSubmit(values, actions) {
     dispatch(logInUser(values));
-    // onSubmit(values);
     actions.resetForm();
   }
   return (
@@ -43,7 +44,7 @@ export default function LogInForm() {
       >
         <InputForm>
           <label htmlFor={emailInputId}>
-            E-mail
+            {t('email')}
             <Field
               id={emailInputId}
               type="text"
@@ -53,7 +54,7 @@ export default function LogInForm() {
             <ErrorStyled name="email" component="div" />
           </label>
           <label htmlFor={passwordInputId}>
-            Password
+            {t('password')}
             <Field
               id={passwordInputId}
               type="text"
@@ -62,7 +63,7 @@ export default function LogInForm() {
             />
             <ErrorStyled name="password" component="div" />
           </label>
-          <button type="submit">Log In</button>
+          <button type="submit"> {t('logIn')}</button>
         </InputForm>
       </Formik>
     </Box>

@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { nanoid } from 'nanoid';
 import { Box, ErrorStyled, InputForm } from './Form.styled';
 import { addContactOperation } from 'redux/operations';
+import { useTranslation } from 'react-i18next';
 
 const nameInputId = nanoid();
 const numberInputId = nanoid();
@@ -27,7 +28,7 @@ let schema = yup.object().shape({
 });
 
 export default function Form() {
-  // const contacts = useSelector(state => state.contacts.items);
+  const { t } = useTranslation();
   const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
 
@@ -61,16 +62,16 @@ export default function Form() {
       >
         <InputForm>
           <label htmlFor={nameInputId}>
-            Name
+            {t('name')}
             <Field id={nameInputId} type="text" name="name" />
             <ErrorStyled name="name" component="div" />
           </label>
           <label htmlFor={numberInputId}>
-            Number
+            {t('number')}
             <Field id={numberInputId} type="tel" name="number" />
             <ErrorStyled name="number" component="div" />
           </label>
-          <button type="submit">Add Contact</button>
+          <button type="submit">{t('addContact')}</button>
         </InputForm>
       </Formik>
     </Box>

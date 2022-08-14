@@ -1,20 +1,39 @@
-import { LogOut } from 'components/LogOut/LogOut';
-import Nav from 'components/Nav/Nav';
-import { PrivateRout } from 'components/PrivateRout/PrivateRout';
-import LogInForm from 'pages/LogInForm/LogInForm';
-import { PhoneBook } from 'pages/PhoneBook/PhoneBook';
-import SingUpForm from 'pages/SingUpForm/SingUpForm';
-import React, { useEffect } from 'react';
-import { Suspense } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { axiosAPI, fetchContactOperation } from 'redux/operations';
+import { initReactI18next } from 'react-i18next';
+import i18n from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { Container } from './App.styled';
+import SingUpForm from 'pages/SingUpForm/SingUpForm';
+import LogInForm from 'pages/LogInForm/LogInForm';
+import { PhoneBook } from 'pages/PhoneBook/PhoneBook';
+import { PrivateRout } from 'components/PrivateRout/PrivateRout';
+import { PublicRoute } from '../PublicRoute/PublicRoute';
+import { ThemeProvider } from 'styled-components';
+import { darkTheme, lihgtTheme } from 'data/theme';
+import { AppBar } from 'components/AppBar/AppBar';
+import { translationsEn } from 'data/en';
+import { translationsUk } from 'data/uk';
+
+i18n.use(initReactI18next).init({
+  resources: {
+    en: { translation: translationsEn },
+    uk: { translation: translationsUk },
+  },
+  lng: 'en',
+  fallbackLng: 'en',
+  debug: true,
+});
 
 export function App() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isLogIn = useSelector(state => state.auth.isLogIn);
-  const persistToken = useSelector(state => state.auth.token);
+  const {
+    auth: { token: persistToken },
+    themeMode,
+  } = useSelector(state => state);
 
   useEffect(() => {
     if (!persistToken) return;
@@ -23,19 +42,26 @@ export function App() {
   }, [persistToken, dispatch]);
 
   return (
-    <Container>
-      React homework template
-      <Nav />
+    <ThemeProvider theme={themeMode === 'light' ? lihgtTheme : darkTheme}>
       <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/register" element={<SingUpForm />} />
-          <Route path="/login" element={<LogInForm />} />
-          <Route path="/contacts" element={<PrivateRout />}>
-            <Route index path="" element={<PhoneBook />} />
-          </Route>
-        </Routes>
+        <Container>
+          {t('appTitle')}
+          <AppBar />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path="/register" element={<PublicRoute />}>
+                <Route index path="" element={<SingUpForm />} />
+              </Route>
+              <Route path="/login" element={<PublicRoute />}>
+                <Route index path="" element={<LogInForm />} />
+              </Route>
+              <Route path="/contacts" element={<PrivateRout />}>
+                <Route index path="" element={<PhoneBook />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </Container>
       </Suspense>
-      {isLogIn && <LogOut />}
-    </Container>
+    </ThemeProvider>
   );
 }

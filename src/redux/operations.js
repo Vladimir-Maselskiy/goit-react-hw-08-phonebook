@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-// import { useNavigate } from 'react-router-dom';
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 export const axiosAPI = {
@@ -38,24 +37,22 @@ export const deleteContactOperation = createAsyncThunk(
 
 export const singUpUser = createAsyncThunk(
   'SING_UP_USER',
-  async ({ name, email, password }) => {
+  async (user, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/users/signup', {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post('/users/signup', user);
       return response.data;
     } catch (error) {
-      return error;
+      alert(
+        'Oops!!!  ‿︵‿ヽ(°□° )ノ︵‿︵   something went wrong,  please try again'
+      );
+      return rejectWithValue();
     }
   }
 );
 
 export const logInUser = createAsyncThunk(
   'LOG_IN_USER',
-  async (user, { rejectWithValue, getState }) => {
-    // const navigate = useNavigate();
+  async (user, { rejectWithValue }) => {
     try {
       const response = await axios.post('/users/login', user);
       axiosAPI.setToken(response.data.token);

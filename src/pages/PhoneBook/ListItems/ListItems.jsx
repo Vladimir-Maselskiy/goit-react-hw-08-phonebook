@@ -1,4 +1,4 @@
-// import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContactOperation } from 'redux/operations';
 import { ListItem } from './ListItems.styled';
@@ -13,6 +13,7 @@ function getVisibleContacts(contacts, filter) {
 }
 
 export default function ListItems() {
+  const { t } = useTranslation();
   const state = useSelector(state => state);
   const dispatch = useDispatch();
   const contacts = getVisibleContacts(state.contacts, state.filter);
@@ -29,7 +30,7 @@ export default function ListItems() {
                 id={id}
                 onClick={() => dispatch(deleteContactOperation(id))}
               >
-                Delete
+                {t('delete')}
               </button>
             </ListItem>
           );

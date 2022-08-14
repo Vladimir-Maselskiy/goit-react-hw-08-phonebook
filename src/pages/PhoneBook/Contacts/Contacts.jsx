@@ -1,4 +1,3 @@
-// import PropTypes from 'prop-types';
 import ListItems from 'pages/PhoneBook/ListItems/ListItems';
 import { Box } from 'pages/PhoneBook/Form/Form.styled';
 import { ContactsList } from './Contacts.styled';

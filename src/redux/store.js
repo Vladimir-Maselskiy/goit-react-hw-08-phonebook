@@ -13,18 +13,20 @@ import {
 // import { contactsReducer } from './reducer';
 import { userSliceReducer } from './userSlice';
 import { contactsSliceReducer } from './contactSlice';
-import { filterReducer } from './reducer';
+import { filterReducer, localeReducer, themeModeReducer } from './reducer';
 
 const rootReducer = combineReducers({
   auth: userSliceReducer,
   contacts: contactsSliceReducer,
   filter: filterReducer,
+  themeMode: themeModeReducer,
+  locale: localeReducer,
 });
 
 const persistConfig = {
   key: 'user',
   storage,
-  whitelist: ['auth'],
+  whitelist: ['auth', 'themeMode', 'locale'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
