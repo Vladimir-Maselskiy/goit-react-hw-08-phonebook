@@ -8,8 +8,7 @@ export const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-switchBase': {
     margin: 1,
     padding: 0,
-    transform: 'translateX(6px)',
-    transform: 'translateY(3px)',
+    transform: 'translate(6px , 3px)',
     '&.Mui-checked': {
       color: '#fff',
       transform: 'translate(22px , 3px)',
