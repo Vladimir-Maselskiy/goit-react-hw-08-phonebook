@@ -10,7 +10,6 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-// import { contactsReducer } from './reducer';
 import { userSliceReducer } from './userSlice';
 import { contactsSliceReducer } from './contactSlice';
 import { filterReducer, localeReducer, themeModeReducer } from './reducer';

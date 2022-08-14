@@ -11,7 +11,7 @@ export const LocalePopover = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleChangeLocale = event => {
-    dispatch(changeLocale(event.target.textContent === 'en' ? 'en' : 'uk'));
+    dispatch(changeLocale(event.target.dataset.lang === 'en' ? 'en' : 'uk'));
     setAnchorEl(null);
   };
 
