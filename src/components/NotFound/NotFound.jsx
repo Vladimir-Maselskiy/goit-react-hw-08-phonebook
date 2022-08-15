@@ -11,5 +11,5 @@ export default function NotFound() {
     } else {
       navigate('/login');
     }
-  }, [navigate]);
+  }, [navigate, isLoggedIn]);
 }
