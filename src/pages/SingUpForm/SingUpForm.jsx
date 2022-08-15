@@ -58,7 +58,7 @@ export default function SingUpForm() {
           </label>
           <label htmlFor={passwordInputId}>
             {t('password')}
-            <Field id={passwordInputId} type="text" name="password" />
+            <Field id={passwordInputId} type="password" name="password" />
             <ErrorStyled name="password" component="div" />
           </label>
           <button type="submit">{t('singUp')}</button>

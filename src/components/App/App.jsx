@@ -16,6 +16,7 @@ import { darkTheme, lihgtTheme } from 'data/theme';
 import { AppBar } from 'components/AppBar/AppBar';
 import { translationsEn } from 'data/en';
 import { translationsUk } from 'data/uk';
+import NotFound from 'components/NotFound/NotFound';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -63,6 +64,7 @@ export function App() {
               <Route path="/contacts" element={<PrivateRout />}>
                 <Route index path="" element={<PhoneBook />} />
               </Route>
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </Container>
